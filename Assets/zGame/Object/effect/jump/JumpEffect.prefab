@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7122636446251298387}
   - component: {fileID: 7122636446251298386}
   - component: {fileID: -5270107480140013561}
+  - component: {fileID: 5553274315812615558}
   m_Layer: 0
   m_Name: JumpEffect
   m_TagString: Untagged
@@ -114,3 +115,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36ff5de9a8e28ab4aa51c21983e1ed2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5553274315812615558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7122636446251298384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44aa8f26fb1ce3c4cb28e945d1492597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 1
+  power: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 256
