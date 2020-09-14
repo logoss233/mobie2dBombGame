@@ -19,7 +19,7 @@ public class EffectForce : MonoBehaviour
             if (rb)
             {
                 print("addForce");
-                var force = (c.transform.position - transform.position).normalized * power;
+                var force = ((c.transform.position - transform.position).normalized+Vector3.up*0.5f) * power;
                 print(force);
                 rb.AddForce(force,ForceMode2D.Impulse);
             }
@@ -31,7 +31,4 @@ public class EffectForce : MonoBehaviour
     {
         Gizmos.DrawWireSphere(transform.position, radius);
     }
-
-
-
 }

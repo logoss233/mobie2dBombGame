@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public float speed = 5;
     public float jumpForce = 10;
+    public float cd = 1f;
     public GameObject bombPrefab;
 
     
@@ -26,8 +27,8 @@ public class PlayerController : MonoBehaviour
     private bool jumpPressed = false;
     private float dir = 0;
     private Animator ani;
-
-
+    private float cdTimer = 0;
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,8 +48,13 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire"))
         {
-            GameObject go=Instantiate(bombPrefab);
-            go.transform.position=transform.position;
+            if (cdTimer <= 0)
+            {
+                cdTimer = cd;
+                GameObject go = Instantiate(bombPrefab);
+                go.transform.position = transform.position;
+            }
+           
         }
 
         //d动画
@@ -74,6 +80,8 @@ public class PlayerController : MonoBehaviour
                 ani.Play("player_fall");
             }
         }
+
+        cdTimer -= Time.deltaTime;
     }
     private void FixedUpdate()
     {
