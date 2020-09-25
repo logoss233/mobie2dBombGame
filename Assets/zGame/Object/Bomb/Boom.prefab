@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1004484564661798663}
   - component: {fileID: 1004484564661798660}
   m_Layer: 11
-  m_Name: Bomb
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -442089931
   m_SortingLayer: -2
-  m_SortingOrder: 1
+  m_SortingOrder: 200
   m_Sprite: {fileID: 21300000, guid: aeb55ab7b97f58541aef000a27c00946, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 1038200187}
   m_Layer: 11
   m_Name: Boom
-  m_TagString: Untagged
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

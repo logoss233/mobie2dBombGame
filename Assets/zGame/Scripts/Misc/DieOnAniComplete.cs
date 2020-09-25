@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class DieOnAniComplete : MonoBehaviour
 {
-    Animator ani;
+    public Animator ani;
     private void Awake()
     {
-        ani = GetComponent<Animator>();
+        if (ani == null)
+        {
+            ani = GetComponent<Animator>();
+        }
+        
         
     }
     private void Update()

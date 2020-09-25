@@ -136,4 +136,9 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawWireCube(groundCheck.position, new Vector3(checkWidth, checkHeight, 1));
     }
+
+    public void beHit()
+    {
+        
+    }
 }
