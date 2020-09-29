@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public Transform targetPoint;
 
     public List<Transform> seeList = new List<Transform>(); //视野中的物体
+    public List<Transform> targetList = new List<Transform>();
     
     [HideInInspector]
     public Animator ani;
@@ -26,7 +27,6 @@ public class Enemy : MonoBehaviour
     [Header("hit")]
     public Vector2 hitPos = new Vector2(0, 0);
     public Vector2 hitSize = new Vector2(1, 1);
-    public LayerMask hitLayer;
 
     private void Awake()
     {
@@ -57,6 +57,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        updateSeeList();
+
         if (this.state == "patrol")
         {
             patrol.onUpdate();
@@ -72,7 +74,7 @@ public class Enemy : MonoBehaviour
         {
             followAndAttack.onFixedUpdate();
         }
-        ConsoleProDebug.Watch("state", state);
+       
        
     }
 
@@ -104,7 +106,11 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        this.seeList.Add(collision.transform);
+        if(collision.tag=="Bomb" || collision.tag == "Player")
+        {
+            this.seeList.Add(collision.transform);
+        }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -133,14 +139,22 @@ public class Enemy : MonoBehaviour
             new Vector2(transform.position.x + hitPos.x*face + hitSize.x/2, transform.position.y + hitPos.y + hitSize.y/2), LayerMask.GetMask("Bomb"));
         if (res.Length > 0)
         {
-            print("攻击");
             foreach(Collider2D c in res)
             {
                 c.SendMessage("putOut");
             }
-
         }
     }
 
-    
+    private void updateSeeList()
+    {
+        for(int i = seeList.Count - 1; i >= 0; i--)
+        {
+            if (seeList[i].tag == "BombOff")
+            {
+                seeList.RemoveAt(i);
+            }
+        }
+    }
+   
 }

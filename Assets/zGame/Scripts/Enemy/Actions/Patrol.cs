@@ -16,13 +16,17 @@ public class Patrol {
 
     public void onEnter()
     {
-        startRun();
+       
+        state = "run";
+        if (this.targetPoint == null)
+        {
+            SwitchPoint();
+        }
     }
 
     void startRun()
     {
         this.state = "run";
-        SwitchPoint();
 
     }
 
@@ -30,6 +34,7 @@ public class Patrol {
     float idleTimer = 0f;
     void startIdle()
     {
+        SwitchPoint(); 
         this.state = "idle";
         idleTimer = 0f;
     }
@@ -42,7 +47,7 @@ public class Patrol {
 
     public void onFixedUpdate()
     {
-        ConsoleProDebug.Watch("patrolState", state);
+        
 
         if (enemy.seeList.Count > 0)
         {
@@ -73,9 +78,6 @@ public class Patrol {
                 startRun();
             }
         }
-
-        
-        
     }
 
     void SwitchPoint()

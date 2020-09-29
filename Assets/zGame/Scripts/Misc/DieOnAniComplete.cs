@@ -11,19 +11,14 @@ public class DieOnAniComplete : MonoBehaviour
         {
             ani = GetComponent<Animator>();
         }
-        
-        
     }
     private void Update()
     {
         AnimatorStateInfo info = ani.GetCurrentAnimatorStateInfo(0);
-
         if (info.normalizedTime >= 1.0f)
-
         {
-
             Destroy(gameObject);
-
         }
     }
+    
 }

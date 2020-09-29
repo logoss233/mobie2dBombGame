@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    enum State { 
+        normal,
+        hit
+    }
+
     private Rigidbody2D rb;
     public float speed = 5;
     public float jumpForce = 10;
@@ -28,7 +33,14 @@ public class PlayerController : MonoBehaviour
     private float dir = 0;
     private Animator ani;
     private float cdTimer = 0;
+
+
+    State state = State.normal;
     
+    private float hitTimer=0;
+    private float hitTime = 0.5f;
+
+    private int face = 1;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,9 +56,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         checkInput();
 
-        if (Input.GetButtonDown("Fire"))
+
+        if (state==State.normal && Input.GetButtonDown("Fire"))
         {
             if (cdTimer <= 0)
             {
@@ -54,40 +68,62 @@ public class PlayerController : MonoBehaviour
                 GameObject go = Instantiate(bombPrefab);
                 go.transform.position = transform.position;
             }
-           
         }
 
-        //d动画
-        if (isGround)
+        if (state == State.hit)
         {
-            if (dir!=0)
+            hitTimer += Time.deltaTime;
+            if (hitTimer > hitTime)
             {
-                ani.Play("player_run");
+                this.state = State.normal;
+            }
+        }
+
+        //动画
+        if (state == State.normal)
+        {
+            if (isGround)
+            {
+                if (dir != 0)
+                {
+                    ani.Play("player_run");
+                }
+                else
+                {
+                    ani.Play("player_idle");
+                }
             }
             else
             {
-                ani.Play("player_idle");
+                if (rb.velocity.y > 0)
+                {
+                    ani.Play("player_jump");
+                }
+                else
+                {
+                    ani.Play("player_fall");
+                }
             }
         }
-        else
-        {
-            if (rb.velocity.y > 0)
-            {
-                ani.Play("player_jump");
-            }
-            else
-            {
-                ani.Play("player_fall");
-            }
-        }
+        
 
         cdTimer -= Time.deltaTime;
     }
     private void FixedUpdate()
     {
         PhysicsCheck();
-        Movement();
-        Jump();
+        if (state == State.normal)
+        {
+            Movement();
+            Jump();
+        }else if (state == State.hit)
+        {
+            
+        }
+
+
+        //按键结束
+        jumpPressed = false;
     }
 
     void checkInput()
@@ -106,6 +142,7 @@ public class PlayerController : MonoBehaviour
 
         if (dir != 0)
         {
+            face = dir > 0 ? 1 : -1;
             transform.localScale = new Vector3(dir, 1, 1);
         }
     }
@@ -118,7 +155,6 @@ public class PlayerController : MonoBehaviour
             go.transform.position = new Vector3(transform.position.x, transform.position.y-0.475f, 0);
 
         }
-        jumpPressed = false;
     }
 
     void PhysicsCheck()
@@ -139,6 +175,15 @@ public class PlayerController : MonoBehaviour
 
     public void beHit()
     {
-        
+        print("beHit");
+        hitTimer = 0;
+        ani.Play("player_hit", 0, 0);
+        this.state = State.hit;
+        rb.velocity = new Vector2(-3*face , 10);
+    }
+
+    private void OnGUI()
+    {
+        GUI.TextArea(new Rect(0, 0, 200, 100), "playerState:" + state.ToString());
     }
 }

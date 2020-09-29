@@ -19,6 +19,7 @@ public class Bomb : MonoBehaviour
     {
         this.isFire = false;
         ani.Play("off");
+        gameObject.tag = "BombOff";
     }
 
     // Update is called once per frame
